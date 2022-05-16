@@ -16,11 +16,11 @@ Edit **params.json** in case you want to set other parameters such as **login, p
 
 If is the first time you are running the scanner:
 
-    poetry run scanner/app.py
+    poetry run python scanner/app.py
 
 otherwise you can use the flag **last-state** to be using the cookies stored in scanner-state.json:
 
-    poetry run scanner/app.py last-state
+    poetry run python scanner/app.py last-state
 
 ### Docker
 
