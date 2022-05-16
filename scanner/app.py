@@ -4,7 +4,7 @@ import time
 import requests  # type: ignore
 import json
 import os
-from playwright.sync_api import sync_playwright, Page
+from playwright.sync_api import sync_playwright, Page, TimeoutError as PlaywrightTimeoutError
 from fake_useragent import UserAgent
 
 from scanner.models import Profile, Address
@@ -33,8 +33,7 @@ class Scanner:
             if not storage_state:
                 self._login_steps(page=page)
 
-                # making sure we got global token
-                page.wait_for_timeout(self.params["wait_for_timeout"])
+                # let's access home to make sure we got global token
                 page.goto(url=self.params["home_url"])
 
             if store_new_state:
@@ -42,22 +41,36 @@ class Scanner:
 
             browser.close()
 
-    def _login_steps(self, page: Page) -> None:
-
-        print("filling username...")
+    def add_username(self, page: Page) -> None:
         page.fill(selector="input#login_username", value=self.params["login"])
         page.click(selector="button#login_password_continue")
 
-        print("filling password...")
+    def add_password(self, page: Page) -> None:
         page.fill(selector="input#login_password", value=self.params["password"])
         page.click(selector="button#login_control_continue")
 
-        print("locating answer...")
-        locator = page.locator(selector="input#login_answer")
-        if locator:
-            print("filling answer...")
-            locator.fill(value=self.params["secret_answer"])
-            page.keyboard.press(key="Enter")
+    def add_answer(self, page: Page) -> None:
+        page.fill(
+            selector="input#login_answer",
+            value=self.params["secret_answer"],
+            timeout=self.params["answer_timeout"],
+        )
+        page.keyboard.press(key="Enter")
+
+    def _login_steps(self, page: Page) -> None:
+
+        print("filling username...")
+        self.add_username(page=page)
+
+        print("filling password...")
+        self.add_password(page=page)
+
+        # in case they ask for answer
+        print("filling answer...")
+        try:
+            self.add_answer(page=page)
+        except PlaywrightTimeoutError:
+            print("TimeoutError on login_answer")
 
     @staticmethod
     def _open_file(filename: str) -> dict:
@@ -125,7 +138,7 @@ class Scanner:
     @staticmethod
     def save_into_file(data: dict, filename: str) -> None:
         with open(file=filename, mode="w") as file:
-            file.write(json.dumps(data))
+            file.write(json.dumps(data, indent=4))
 
     def store_best_matches(self) -> None:
         high_chance = self.get_high_chance()
