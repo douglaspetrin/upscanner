@@ -38,8 +38,7 @@ class Scanner:
                 page.goto(url=self.params["home_url"])
 
             if store_new_state:
-                storage = context.storage_state(path=self.get_path(self.params["state_file"]))
-                print(f"storage:{storage}")
+                context.storage_state(path=self.get_path(self.params["state_file"]))
 
             browser.close()
 
@@ -53,16 +52,12 @@ class Scanner:
         page.fill(selector="input#login_password", value=self.params["password"])
         page.click(selector="button#login_control_continue")
 
-        try:
-            print("locating answer...")
-            locator = page.locator(selector="input#login_answer")
-            if locator:
-                print("filling answer...")
-                locator.fill(value=self.params["secret_answer"])
-                page.keyboard.press(key="Enter")
-        except Exception as answer_exception:
-            print("login_answer.answer_exception:", answer_exception)
-            pass
+        print("locating answer...")
+        locator = page.locator(selector="input#login_answer")
+        if locator:
+            print("filling answer...")
+            locator.fill(value=self.params["secret_answer"])
+            page.keyboard.press(key="Enter")
 
     @staticmethod
     def _open_file(filename: str) -> dict:
