@@ -28,3 +28,6 @@ vulture:
 
 bandit:
 	poetry run bandit scanner/*
+
+first:
+	poetry run python scanner/app.py
