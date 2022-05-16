@@ -7,7 +7,7 @@
   "slow_mo": 50,
   "tries": 5,
   "try_sleep": 30,
-  "wait_for_timeout": 3000,
+  "answer_timeout": 3000,
   "login_url": "https://www.upwork.com/ab/account-security/login",
   "home_url": "https://www.upwork.com/",
   "endpoints": {
