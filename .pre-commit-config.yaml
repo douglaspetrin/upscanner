@@ -1,0 +1,40 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: check-executables-have-shebangs
+      # - id: check-shebang-scripts-are-executable
+      - id: check-yaml
+      - id: check-added-large-files
+      # - id: check-builtin-literals
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: fix-encoding-pragma
+        args:
+          - --remove
+      - id: file-contents-sorter
+        args:
+          - .gitignore
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.19.4
+    hooks:
+      - id: pyupgrade
+
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+      - id: black
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.9
+    hooks:
+        - id: flake8
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: ''  # Use the sha / tag you want to point at
+    hooks:
+      - id: mypy

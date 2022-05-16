@@ -1,0 +1,25 @@
+[flake8]
+ignore =  A001   # too many of those to tackle
+          A003   # too many of those to tackle
+          N805   # this incorrectly flags pydantic classmethods
+          SIM102 # didn't like this one
+          SIM106 # this does not seem to make a lot of sense
+          W503   # line breaks before binaries, we get a lot from long lines and `black`
+          E402   # module level import not at top of file
+
+exclude =
+  __pycache__
+  .eggs
+  .git
+  **_pb2.py
+  build
+  dist
+  test* C812
+  .venv
+
+indent-size = 4
+inline-quotes = "
+max-annotations-complexity= 4
+max-complexity = 10
+max-line-length = 100
+no-accept-encodings = True

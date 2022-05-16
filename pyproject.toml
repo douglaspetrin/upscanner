@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "upScanner"
+version = "1.0.0"
+description = "scanning like a pro!"
+authors = ["Douglas Petrin"]
+packages = [
+    { include = "scanner" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.27.1"
+webdriver-manager = "^3.5.4"
+fake-useragent = "^0.1.11"
+playwright = "^1.21.0"
+pydantic = "^1.9.0"
+
+[tool.poetry.dev-dependencies]
+pytest-cov = "^2.10.1"
+pytest-flake8 = "^1.0.6"
+pytest = "^6.0.1"
+pre-commit = "^2.16.0"
+flake8 = "3.9.2"
+black = "^21.11b1"
+mypy = "^0.950"
+types-requests = "^2.27.25"
+vulture = "^2.3"
+bandit = "^1.7.4"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target_version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+addopts = "--cov=scanner  --cov-report=term  --cov-report=html:reports/coverage.html --junit-xml=reports/junit.xml --cov-config=pyproject.toml --cov-branch --no-cov-on-fail --doctest-modules --disable-warnings"
+
+[tool.vulture]
+exclude = ["*pb2_grpc.py", "*pb2.py"]
+make_whitelist = true
+min_confidence = 80
+paths = ["scanner"]
+sort_by_size = true
