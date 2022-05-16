@@ -22,13 +22,12 @@ otherwise you can use the flag **last-state** to be using the cookies stored in 
 
     poetry run scanner/app.py last-state
 
-
 ### Docker
 
     docker build -t upscanner .
     docker run -it upscanner
 
-#### Testing
+### Testing
 
     make test
 
